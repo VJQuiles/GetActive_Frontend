@@ -1,23 +1,26 @@
-import Button from 'react-bootstrap/Button'
-import Navbar from 'react-bootstrap/Navbar'
-import Form from 'react-bootstrap/Form';
+import './App.css'
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import Login from './pages/Login'
+import NotFound from './pages/NotFound'
+import Register from './pages/Register'
+import User from './pages/User'
+import Workout from './pages/Workout'
 
 function App() {
 
   return (
     <>
-      <Navbar>I'm just trying stuff</Navbar>
-      <h1>This is just to see something for the dopamine. And as reminder that i can make things show up in the browser...</h1>
-      <div className='text-center'>
-        <Button variant='danger'> This is a button </Button>
-      </div>
-      <Form.Label htmlFor="exampleColorInput">Color picker</Form.Label>
-      <Form.Control
-        type="color"
-        id="exampleColorInput"
-        defaultValue="#563d7c"
-        title="Choose your color"
-      />
+      <Routes>
+        <Route path='/' element={<HomePage />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
+        <Route path='/user' element={
+          <User />
+        } />
+        <Route path='/workout' element={<Workout />} />
+        <Route path='*' element={<NotFound />} />
+      </Routes>
     </>
   )
 }

@@ -24,9 +24,9 @@ export default function HomePage() {
             <Navigation />
             <h2>Home Page</h2>
             <ul className="list-unstyled">
-                {exercises.map(({ _id, name, instructions }) => (
-                    <li key={_id}>
-                        <Card className="mb-2">{name}: {instructions}</Card>
+                {exercises.map((exercise) => (
+                    <li key={exercise._id}>
+                        <Card className="mb-2">{exercise.name}: {exercise.instructions}</Card>
                     </li>
                 ))}
             </ul>

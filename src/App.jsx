@@ -8,16 +8,13 @@ import User from './pages/User'
 import Workout from './pages/Workout'
 
 function App() {
-
   return (
     <>
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/user/workouts' element={
-          <User />
-        } />
+        <Route path='/user/workouts' element={<User />} />
         <Route path='/user/workouts/:workoutId' element={<Workout />} />
         <Route path='*' element={<NotFound />} />
       </Routes>

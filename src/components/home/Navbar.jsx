@@ -1,19 +1,19 @@
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
-import { useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import UserContext from '../../contexts/UserContext.jsx';
+import Container from 'react-bootstrap/Container'
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import Button from 'react-bootstrap/Button'
+import { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import UserContext from '../../contexts/UserContext.jsx'
 
 function Navigation() {
-    const { currentUser, logout } = useContext(UserContext);
-    const navigate = useNavigate();
+    const { currentUser, logout } = useContext(UserContext)
+    const navigate = useNavigate()
 
     const handleLogout = () => {
-        logout();
-        navigate('/');
-    };
+        logout()
+        navigate('/')
+    }
 
     return (
         <Navbar bg="primary" data-bs-theme="dark" className="mb-3">
@@ -47,7 +47,7 @@ function Navigation() {
                 </Nav>
             </Container>
         </Navbar>
-    );
+    )
 }
 
-export default Navigation;
+export default Navigation

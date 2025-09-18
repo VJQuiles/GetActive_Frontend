@@ -49,9 +49,9 @@ export default function Login() {
     }
 
     return (
-        <div className="login-page">
+        <div className="auth-page">
             <Navigation />
-            <main className="login-page-body">
+            <main className="auth-page__body d-flex justify-content-center align-items-center">
                 <Card className="shadow-sm border-0 w-100" style={{ maxWidth: '420px' }}>
                     <Card.Body className="p-4">
                         <Card.Title className="mb-4 text-center">Welcome Back</Card.Title>

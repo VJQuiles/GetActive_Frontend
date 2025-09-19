@@ -1,10 +1,16 @@
+import { useParams } from "react-router-dom"
 import Navigation from "../components/home/Navbar"
+import ExerciseDashboard from "../components/workout/ExerciseDashboard"
 
 export default function Workout() {
+    const { workoutId } = useParams()
+
     return (
-        <>
+        <div className="dashboard-page">
             <Navigation />
-            <h4>This is the workout page</h4>
-        </>
+            <main className="dashboard-page__body container py-4">
+                <ExerciseDashboard workoutId={workoutId} />
+            </main>
+        </div>
     )
 }

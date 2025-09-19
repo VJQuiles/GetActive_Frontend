@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Button, Card, Col, Form, Row, Spinner, Stack } from "react-bootstrap"
-import { fetchUserWorkouts, createWorkout } from "../../utils/workouts"
+import { fetchUserWorkouts, createWorkout, deleteWorkout } from "../../utils/workoutCalls"
 
 const WORKOUT_TYPES = ["Full Body", "Upper", "Lower", "Push", "Pull", "Leg"]
 
@@ -10,6 +10,7 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
     const [error, setError] = useState(null)
     const [formData, setFormData] = useState({ name: "", description: WORKOUT_TYPES[0] })
     const [saving, setSaving] = useState(false)
+    const [deletingId, setDeletingId] = useState(null)
 
     useEffect(() => {
         fetchUserWorkouts()
@@ -42,6 +43,25 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
             setError(message)
         } finally {
             setSaving(false)
+        }
+    }
+
+    const handleDelete = async (workoutId) => {
+        setError(null)
+        try {
+            setDeletingId(workoutId)
+            await deleteWorkout(workoutId)
+            setWorkouts((prev) => prev.filter((workout) => workout._id !== workoutId))
+        } catch (deleteError) {
+            const message =
+                deleteError.response?.data?.error ??
+                deleteError.response?.data?.message ??
+                deleteError.error ??
+                deleteError.message ??
+                "Unable to delete workout."
+            setError(message)
+        } finally {
+            setDeletingId(null)
         }
     }
 
@@ -117,24 +137,38 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
                             </Card.Body>
                         </Card>
                     ) : (
-                        workouts.map((workout) => (
-                            <Card key={workout._id} className="shadow-sm">
-                                <Card.Body className="d-flex justify-content-between align-items-start">
-                                    <div>
-                                        <Card.Title className="h5 mb-1">{workout.name}</Card.Title>
-                                        <Card.Subtitle className="text-muted">
-                                            {workout.description}
-                                        </Card.Subtitle>
-                                    </div>
-                                    <Button variant="outline-primary" size="sm" onClick={() => onWorkoutSelect?.(workout)}>
-                                        View
-                                    </Button>
-                                </Card.Body>
-                            </Card>
-                        ))
+                        workouts.map((workout) => {
+                            const isDeleting = deletingId === workout._id
+                            return (
+                                <Card key={workout._id} className="shadow-sm">
+                                    <Card.Body className="d-flex justify-content-between align-items-start gap-3">
+                                        <div>
+                                            <Card.Title className="h5 mb-1">{workout.name}</Card.Title>
+                                            <Card.Subtitle className="text-muted">
+                                                {workout.description}
+                                            </Card.Subtitle>
+                                        </div>
+                                        <div className="d-flex gap-2">
+                                            <Button variant="outline-primary" size="sm" onClick={() => onWorkoutSelect?.(workout)}>
+                                                View
+                                            </Button>
+                                            <Button
+                                                variant="outline-danger"
+                                                size="sm"
+                                                disabled={isDeleting}
+                                                onClick={() => handleDelete(workout._id)}
+                                            >
+                                                {isDeleting ? "Removing..." : "Delete"}
+                                            </Button>
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            )
+                        })
                     )}
                 </Stack>
             </Col>
         </Row>
     )
 }
+

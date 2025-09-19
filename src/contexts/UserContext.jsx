@@ -1,5 +1,5 @@
 import { createContext, useMemo, useState } from 'react'
-import axios from 'axios';
+import axios from 'axios'
 
 const API_BASE = import.meta.env.VITE_SERVER_ORIGIN ?? 'http://localhost:3000'
 
@@ -37,4 +37,4 @@ export function UserProvider({ children }) {
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }
 
-export default UserContext;
+export default UserContext

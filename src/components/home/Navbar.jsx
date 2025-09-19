@@ -1,10 +1,10 @@
-import Container from 'react-bootstrap/Container'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import Button from 'react-bootstrap/Button'
-import { useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import UserContext from '../../contexts/UserContext.jsx'
+import Container from "react-bootstrap/Container"
+import Nav from "react-bootstrap/Nav"
+import Navbar from "react-bootstrap/Navbar"
+import Button from "react-bootstrap/Button"
+import { useContext } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import UserContext from "../../contexts/UserContext.jsx"
 
 function Navigation() {
     const { currentUser, logout } = useContext(UserContext)
@@ -12,7 +12,7 @@ function Navigation() {
 
     const handleLogout = () => {
         logout()
-        navigate('/')
+        navigate("/")
     }
 
     return (
@@ -25,9 +25,6 @@ function Navigation() {
                     <Nav.Link as={Link} to="/user/workouts">
                         Dashboard
                     </Nav.Link>
-                    <Nav.Link as={Link} to="/user/workouts/:workoutId">
-                        Workout
-                    </Nav.Link>
                 </Nav>
                 <Nav className="gap-2 align-items-center">
                     {currentUser ? (
@@ -39,7 +36,7 @@ function Navigation() {
                             <Nav.Link as={Link} to="/login">
                                 Login
                             </Nav.Link>
-                            <Button variant="light" size="sm" onClick={() => navigate('/register')}>
+                            <Button variant="light" size="sm" onClick={() => navigate("/register")}>
                                 Register
                             </Button>
                         </>

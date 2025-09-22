@@ -6,6 +6,10 @@ import { useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import UserContext from "../../contexts/UserContext.jsx"
 
+// Functional navigation bar for improved UX navigating SPA
+// Uses userContext to check the user login status and conditionally render either the logout button or the login/register buttons
+// Also has functionality to handle log out
+// Bootstrap for styling
 function Navigation() {
     const { currentUser, logout } = useContext(UserContext)
     const navigate = useNavigate()

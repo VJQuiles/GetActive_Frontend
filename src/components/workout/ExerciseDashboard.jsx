@@ -5,6 +5,7 @@ import { fetchWorkout } from "../../utils/workoutCalls"
 import { fetchExercises, createExercise, deleteExercise } from "../../utils/exerciseCalls"
 import { getCoreExercises } from "../../utils/getCoreExercises"
 
+// Enums to help ease adding values to the drop down menus. Same setup as on the backend. 
 const liftTypes = ["Compound", "Accessory"]
 const equipmentTypes = ["Barbell", "Dumbbell", "Machine"]
 
@@ -15,6 +16,7 @@ const initialCustomForm = {
     equipmentType: equipmentTypes[0],
 }
 
+// Dashboard for exercises that attach to workouts. 
 export default function ExerciseDashboard({ workoutId }) {
     const navigate = useNavigate()
     const [workout, setWorkout] = useState(null)
@@ -27,6 +29,7 @@ export default function ExerciseDashboard({ workoutId }) {
     const [customForm, setCustomForm] = useState(initialCustomForm)
     const [creatingCustom, setCreatingCustom] = useState(false)
 
+    // This function checks for a workout id, redirects if there isnt one. If there is, loading starts, and old errors are cleared. Workout details are fetched, along with its exercises, and any core exercises attached to it. If there is an error, the appropiate one is sent back, and then the loading is stopped. 
     useEffect(() => {
         if (!workoutId) {
             navigate("/user/workouts")
@@ -61,6 +64,7 @@ export default function ExerciseDashboard({ workoutId }) {
         loadData()
     }, [workoutId, navigate])
 
+    // Function to group coreExercises using useMemo. This funciton iterates through coreExercises, and organizes them into an object. Each key is the list type of the exercise. Every value is the array defined at the top of the file. Use memo makes it so this only happens when the type is changed. 
     const groupedCoreExercises = useMemo(() => {
         return coreExercises.reduce((acc, core) => {
             const key = core.liftType ?? "Other"
@@ -70,6 +74,7 @@ export default function ExerciseDashboard({ workoutId }) {
         }, {})
     }, [coreExercises])
 
+    // Function to handle addition of core exercises. Exisiting errors are cleared. addingCoreId state is then setto the exercise being added. createExercise called with workoutId and coreExercise details. If successful, the new exercise is prepended(for efficiency, prepending saves having to cycle through the list). Appropiate error is chosen and displayed. addingCOreId is then set to null.
     const handleAddCoreExercise = async (coreExercise) => {
         setError(null)
         try {
@@ -94,11 +99,13 @@ export default function ExerciseDashboard({ workoutId }) {
         }
     }
 
+    // Function to handle input changes for the exercise form. Takes the values put in via event.target, updates the form state, and dynamically sets the input values as the new values.
     const handleCustomChange = (event) => {
         const { name, value } = event.target
         setCustomForm((prev) => ({ ...prev, [name]: value }))
     }
 
+    //
     const handleCustomSubmit = async (event) => {
         event.preventDefault()
         setError(null)

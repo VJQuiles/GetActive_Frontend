@@ -2,16 +2,21 @@ import { useEffect, useState } from "react"
 import { Button, Card, Col, Form, Row, Spinner, Stack } from "react-bootstrap"
 import { fetchUserWorkouts, createWorkout, deleteWorkout } from "../../utils/workoutCalls"
 
-const WORKOUT_TYPES = ["Full Body", "Upper", "Lower", "Push", "Pull", "Leg"]
+// Array for workout types, just like in the backend(enum in the model type, but the variable for it is an array). This is to help adding workout types easier in the drop down. 
+const workoutTypes = ["Full Body", "Upper", "Lower", "Push", "Pull", "Leg"]
 
+// Really should have split this up, But this is the dashboard component for the workout page. 
 export default function WorkoutDashboard({ onWorkoutSelect }) {
+    // Here we set the state for workouts, and the error and loading states that are needed for api calls. 
+    // We also set state for for the workout form, saving the workout, and deleting the workout.  
     const [workouts, setWorkouts] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    const [formData, setFormData] = useState({ name: "", description: WORKOUT_TYPES[0] })
+    const [formData, setFormData] = useState({ name: "", description: workoutTypes[0] })
     const [saving, setSaving] = useState(false)
     const [deletingId, setDeletingId] = useState(null)
 
+    // Here we fetch the workouts and set them leveraging functions from out utils folder. We also handle error and set the loading state while the data is being retrieved. 
     useEffect(() => {
         fetchUserWorkouts()
             .then(setWorkouts)
@@ -19,11 +24,13 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
             .finally(() => setLoading(false))
     }, [])
 
+    // Function to handle input changes for the workout form. Takes the values put in via event.target, updates the form state, and dynamically sets the input values as the new values.
     const handleChange = (event) => {
         const { name, value } = event.target
         setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
+    // Handles submit for new workout by preventing page reload, clearing existing errors, setting the save state to true while the request is ongoing, calls createWorkout with thte form data and adds the new workout if successful. Form fields are then cleared. If an error occurs, it is sent back, and the saving state is set to false when the request is comeplete. 
     const handleSubmit = async (event) => {
         event.preventDefault()
         setError(null)
@@ -32,7 +39,7 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
             setSaving(true)
             const newWorkout = await createWorkout(formData)
             setWorkouts((prev) => [newWorkout, ...prev])
-            setFormData({ name: "", description: WORKOUT_TYPES[0] })
+            setFormData({ name: "", description: workoutTypes[0] })
         } catch (submitError) {
             const message =
                 submitError.response?.data?.error ??
@@ -46,6 +53,7 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
         }
     }
 
+    // Handles the delete button functionality by clearinf errors, setting the sdeleted item to the workoutID passed from params, and then a new map is created omitting the work out specified. Error messages are sent back if there are any, and then the deleting state is set back to false.
     const handleDelete = async (workoutId) => {
         setError(null)
         try {
@@ -65,6 +73,7 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
         }
     }
 
+    // React Bootstrap used for styling
     return (
         <Row className="gy-4">
             <Col xs={12} lg={4}>
@@ -89,7 +98,7 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
                                     value={formData.description}
                                     onChange={handleChange}
                                 >
-                                    {WORKOUT_TYPES.map((type) => (
+                                    {workoutTypes.map((type) => (
                                         <option key={type} value={type}>
                                             {type}
                                         </option>

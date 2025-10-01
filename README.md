@@ -60,6 +60,7 @@ This helped a lot with 2 different aspects I knew I had to strengthen would be u
 Watching back some of the lessons from class, as well as watching videos on youtube also helped. I found webdevsimplified and fireship to have particularly useful videos. 
 
 The other noticeable thing i experienced was stepping out of options paralysis and actually trying things to make 
+
 ### Resources
 
 Code along videos from both class and office hours

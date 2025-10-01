@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button, Card, Col, Form, Row, Spinner, Stack, Badge } from "react-bootstrap"
-import { fetchWorkout } from "../../utils/workoutCalls"
-import { fetchExercises, createExercise, deleteExercise } from "../../utils/exerciseCalls"
-import { getCoreExercises } from "../../utils/getCoreExercises"
+import { fetchWorkout } from "../../../utils/workoutCalls"
+import { fetchExercises, createExercise, deleteExercise } from "../../../utils/exerciseCalls"
+import { getCoreExercises } from "../../../utils/getCoreExercises"
 
 // Enums to help ease adding values to the drop down menus. Same setup as on the backend. 
 const liftTypes = ["Compound", "Accessory"]

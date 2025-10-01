@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Card, Col, Form, Row, Spinner, Stack } from "react-bootstrap"
-import { fetchUserWorkouts, createWorkout, deleteWorkout } from "../../utils/workoutCalls"
+import { fetchUserWorkouts, createWorkout, deleteWorkout } from "../../../utils/workoutCalls"
+import WorkoutList from "../WorkoutList/WorkoutList"
 
 // Array for workout types, just like in the backend(enum in the model type, but the variable for it is an array). This is to help adding workout types easier in the drop down. 
 const workoutTypes = ["Full Body", "Upper", "Lower", "Push", "Pull", "Leg"]
@@ -146,34 +147,11 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
                             </Card.Body>
                         </Card>
                     ) : (
-                        workouts.map((workout) => {
-                            const isDeleting = deletingId === workout._id
-                            return (
-                                <Card key={workout._id} className="shadow-sm">
-                                    <Card.Body className="d-flex justify-content-between align-items-start gap-3">
-                                        <div>
-                                            <Card.Title className="h5 mb-1">{workout.name}</Card.Title>
-                                            <Card.Subtitle className="text-muted">
-                                                {workout.description}
-                                            </Card.Subtitle>
-                                        </div>
-                                        <div className="d-flex gap-2">
-                                            <Button variant="outline-primary" size="sm" onClick={() => onWorkoutSelect?.(workout)}>
-                                                View
-                                            </Button>
-                                            <Button
-                                                variant="outline-danger"
-                                                size="sm"
-                                                disabled={isDeleting}
-                                                onClick={() => handleDelete(workout._id)}
-                                            >
-                                                {isDeleting ? "Removing..." : "Delete"}
-                                            </Button>
-                                        </div>
-                                    </Card.Body>
-                                </Card>
-                            )
-                        })
+                        <WorkoutList
+                            workouts={workouts}
+                            onDelete={handleDelete}
+                            onWorkoutSelect={onWorkoutSelect}
+                            deletingId={deletingId} />
                     )}
                 </Stack>
             </Col>

@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button, Card, Col, Row, Spinner, Stack } from "react-bootstrap"
+import { Button, Card, Col, Form, Row, Spinner, Stack, Badge } from "react-bootstrap"
 import { fetchWorkout } from "../../../utils/workoutCalls"
 import { fetchExercises, createExercise, deleteExercise } from "../../../utils/exerciseCalls"
 import { getCoreExercises } from "../../../utils/getCoreExercises"
 import ExerciseList from "../ExerciseList/ExerciseList"
-import CoreExerciseList from "../CoreExerciseList/CoreExerciseList"
-import ExerciseForm from "../ExerciseForm/ExerciseForm"
+import CoreExerciseList from "./CoreExerciseList"
 
 
 // Enums to help ease adding values to the drop down menus. Same setup as on the backend. 
@@ -210,15 +209,6 @@ export default function ExerciseDashboard({ workoutId }) {
                                 />
                             </Card.Body>
                         </Card>
-
-                        <ExerciseForm
-                            formData={customForm}
-                            onChange={handleCustomChange}
-                            onSubmit={handleCustomSubmit}
-                            isCreating={creatingCustom}
-                            liftTypes={liftTypes}
-                            equipmentTypes={equipmentTypes}
-                        />
                     </Stack>
                 </Col>
             </Row>

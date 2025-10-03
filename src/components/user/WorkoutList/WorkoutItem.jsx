@@ -19,7 +19,10 @@ export default function WorkoutItem({
                     </Card.Subtitle>
                 </div>
                 <div className="d-flex gap-2">
-                    <Button variant="outline-primary" size="sm" onClick={() => onWorkoutSelect?.(workout)}>
+                    <Button
+                        variant="outline-primary"
+                        size="sm"
+                        onClick={() => onWorkoutSelect?.(workout)}>
                         View
                     </Button>
                     <Button

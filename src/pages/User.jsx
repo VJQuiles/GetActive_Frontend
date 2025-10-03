@@ -1,5 +1,5 @@
 import Navigation from "../components/home/Navbar"
-import WorkoutDashboard from "../components/user/WorkoutDashboard"
+import WorkoutDashboard from "../components/user/WorkoutDashboard/WorkoutDashboard"
 import { useNavigate } from "react-router-dom"
 
 export default function User() {

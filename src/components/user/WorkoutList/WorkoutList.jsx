@@ -1,5 +1,6 @@
-import { Stack } from "react-bootstrap"
+import Stack from "react-bootstrap/Stack"
 import WorkoutItem from "./WorkoutItem"
+import PropTypes from "prop-types"
 
 export default function WorkoutList({
     workouts,
@@ -20,4 +21,15 @@ export default function WorkoutList({
             ))}
         </Stack>
     )
+}
+
+WorkoutList.propTypes = {
+    workouts: PropTypes.arrayOf(
+        PropTypes.shape({
+            _id: PropTypes.string.isRequired,
+        })
+    ).isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onWorkoutSelect: PropTypes.func,
+    deletingId: PropTypes.string,
 }

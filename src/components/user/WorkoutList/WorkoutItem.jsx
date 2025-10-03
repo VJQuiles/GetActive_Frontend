@@ -1,4 +1,7 @@
-import { Button, Card } from "react-bootstrap"
+import Button from "react-bootstrap/Button"
+import Card from "react-bootstrap/Card"
+import PropTypes from "prop-types"
+
 
 export default function WorkoutItem({
     workout,
@@ -31,4 +34,15 @@ export default function WorkoutItem({
             </Card.Body>
         </Card>
     )
+}
+
+WorkoutItem.propTypes = {
+    workout: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string.isRequired,
+    }).isRequired,
+    onWorkoutSelect: PropTypes.func,
+    isDeleting: PropTypes.bool.isRequired,
+    onDelete: PropTypes.func.isRequired,
 }

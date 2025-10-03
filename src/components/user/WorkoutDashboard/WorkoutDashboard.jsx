@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import { Button, Card, Col, Form, Row, Spinner, Stack } from "react-bootstrap"
+import { Card, Col, Row, Spinner, Stack } from "react-bootstrap"
 import { fetchUserWorkouts, createWorkout, deleteWorkout } from "../../../utils/workoutCalls"
 import WorkoutList from "../WorkoutList/WorkoutList"
+import WorkoutForm from "../WorkoutForm/WorkoutForm"
 
 // Array for workout types, just like in the backend(enum in the model type, but the variable for it is an array). This is to help adding workout types easier in the drop down. 
 const workoutTypes = ["Full Body", "Upper", "Lower", "Push", "Pull", "Leg"]
@@ -77,59 +78,14 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
     // React Bootstrap used for styling
     return (
         <Row className="gy-4">
-            <Col xs={12} lg={4}>
-                <Card className="shadow-sm">
-                    <Card.Body>
-                        <Card.Title className="h5">Create Workout</Card.Title>
-                        <Form onSubmit={handleSubmit}>
-                            <Form.Group className="mb-3" controlId="dashboardWorkoutName">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    placeholder="Leg Day"
-                                    required
-                                />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="dashboardWorkoutDescription">
-                                <Form.Label>Type</Form.Label>
-                                <Form.Select
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleChange}
-                                >
-                                    {workoutTypes.map((type) => (
-                                        <option key={type} value={type}>
-                                            {type}
-                                        </option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                            {error && (
-                                <p className="text-danger small mb-3">{error}</p>
-                            )}
-                            <Button type="submit" variant="primary" className="w-100" disabled={saving}>
-                                {saving ? (
-                                    <>
-                                        <Spinner
-                                            as="span"
-                                            animation="border"
-                                            size="sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                            className="me-2"
-                                        />
-                                        Saving...
-                                    </>
-                                ) : (
-                                    "Save Workout"
-                                )}
-                            </Button>
-                        </Form>
-                    </Card.Body>
-                </Card>
-            </Col>
+            <WorkoutForm
+                formData={formData}
+                workoutTypes={workoutTypes}
+                onSubmit={handleSubmit}
+                onChange={handleChange}
+                saving={saving}
+                error={error}
+            />
             <Col xs={12} lg={8}>
                 <Stack gap={3}>
                     <header>
@@ -158,4 +114,3 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
         </Row>
     )
 }
-

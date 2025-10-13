@@ -3,6 +3,7 @@ import { Card, Col, Row, Spinner, Stack } from "react-bootstrap"
 import { fetchUserWorkouts, createWorkout, deleteWorkout } from "../../../utils/workoutCalls"
 import WorkoutList from "../WorkoutList/WorkoutList"
 import WorkoutForm from "../WorkoutForm/WorkoutForm"
+import WorkoutFilter from "../WorkoutFilter/WorkoutFilter"
 
 // Array for workout types, just like in the backend(enum in the model type, but the variable for it is an array). This is to help adding workout types easier in the drop down. 
 const workoutTypes = ["Full Body", "Upper", "Lower", "Push", "Pull", "Leg"]
@@ -17,6 +18,7 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
     const [formData, setFormData] = useState({ name: "", description: workoutTypes[0] })
     const [saving, setSaving] = useState(false)
     const [deletingId, setDeletingId] = useState(null)
+    const [filter, setFilter] = useState("All")
 
     // Here we fetch the workouts and set them leveraging functions from out utils folder. We also handle error and set the loading state while the data is being retrieved. 
     useEffect(() => {
@@ -75,6 +77,12 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
         }
     }
 
+    const handleFilterChange = (newType) => {
+        setFilter(newType)
+    }
+
+    const filteredWorkouts = workouts.filter((workout) => filter === "All" || workout.description === filter)
+
     // React Bootstrap used for styling
     return (
         <Row className="gy-4">
@@ -92,6 +100,11 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
                         <h2 className="h4 mb-1">Your Workouts</h2>
                         <p className="text-muted mb-0">View and manage the workouts you've created.</p>
                     </header>
+                    <WorkoutFilter
+                        workoutTypes={workoutTypes}
+                        currentType={filter}
+                        onTypeChange={handleFilterChange}
+                    />
                     {loading ? (
                         <div className="text-center py-5">
                             <Spinner animation="border" role="status" />
@@ -104,7 +117,7 @@ export default function WorkoutDashboard({ onWorkoutSelect }) {
                         </Card>
                     ) : (
                         <WorkoutList
-                            workouts={workouts}
+                            workouts={filteredWorkouts}
                             onDelete={handleDelete}
                             onWorkoutSelect={onWorkoutSelect}
                             deletingId={deletingId} />

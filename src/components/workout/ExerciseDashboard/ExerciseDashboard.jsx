@@ -6,6 +6,7 @@ import { fetchExercises, createExercise, deleteExercise } from "../../../utils/e
 import { getCoreExercises } from "../../../utils/getCoreExercises"
 import ExerciseList from "../ExerciseList/ExerciseList"
 import CoreExerciseList from "../CoreExerciseList/CoreExerciseList"
+import ExerciseFilter from "../ExerciseFilter/ExerciseFilter"
 import ExerciseForm from "../ExerciseForm/ExerciseForm"
 
 
@@ -32,6 +33,7 @@ export default function ExerciseDashboard({ workoutId }) {
     const [deletingExerciseId, setDeletingExerciseId] = useState(null)
     const [customForm, setCustomForm] = useState(initialCustomForm)
     const [creatingCustom, setCreatingCustom] = useState(false)
+    const [liftTypeFilter, setLiftTypeFilter] = useState("All")
 
     // This function checks for a workout id, redirects if there isnt one. If there is, loading starts, and old errors are cleared. Workout details are fetched, along with its exercises, and any core exercises attached to it. If there is an error, the appropiate one is sent back, and then the loading is stopped. 
     useEffect(() => {
@@ -140,6 +142,15 @@ export default function ExerciseDashboard({ workoutId }) {
         }
     }
 
+    const handleFilterChange = (newType) => {
+        setLiftTypeFilter(newType)
+    }
+
+    const filteredExercises = exercises.filter(
+        (exercise) =>
+            liftTypeFilter === "All" || exercise.liftType === liftTypeFilter
+    )
+
     if (loading) {
         return (
             <div className="text-center py-5">
@@ -184,13 +195,18 @@ export default function ExerciseDashboard({ workoutId }) {
                             <h2 className="h5 mb-1">Current Exercises</h2>
                             <p className="text-muted mb-0">Exercises in this workout.</p>
                         </header>
-                        {exercises.length === 0 ? (
+                        <ExerciseFilter
+                            liftTypes={liftTypes}
+                            currentType={liftTypeFilter}
+                            onTypeChange={handleFilterChange}
+                        />
+                        {filteredExercises.length === 0 ? (
                             <Card className="shadow-sm border-0">
                                 <Card.Body className="text-center text-muted">No exercises added yet.</Card.Body>
                             </Card>
                         ) : (
                             <ExerciseList
-                                exercises={exercises}
+                                exercises={filteredExercises}
                                 onDelete={handleDeleteExercise}
                                 deletingId={deletingExerciseId}
                             />
